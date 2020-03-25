@@ -1,0 +1,14 @@
+=={{int:filedesc}}==
+{{Information
+|description={{en|1=descText}}
+|date=dateTime
+|source={{own}}
+|author=[[User:Maskaravivek|Maskaravivek]]
+|permission=
+|other versions=
+}}
+
+=={{int:license-header}}==
+{{self|cc-by-sa-4.0}}
+
+[[Category:COVID-19]]

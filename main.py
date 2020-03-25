@@ -3,7 +3,12 @@ import matplotlib.pyplot as plt
 import os
 from datetime import date
 from datetime import timedelta
+import logging
+import requests
+from datetime import datetime, timedelta
+from upload import *
 
+logging.basicConfig(level=logging.WARNING)
 
 # open the CSV file
 CONFIRMED_CASES = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv'
@@ -18,7 +23,7 @@ def getFormattedDate():
     return today.strftime('%m/%d/%y')
 
 
-def plot_timeseries_by_country(dir, prefix, type_of_data):
+def plot_timeseries_by_country(S, dir, prefix, type_of_data):
     corona_data = pd.read_csv(type_of_data)
     countries = sorted(corona_data['Country/Region'].unique())
     for country in (countries):
@@ -27,17 +32,39 @@ def plot_timeseries_by_country(dir, prefix, type_of_data):
         by_date = country_data.sum(axis=0).filter(like='/20')
         yesterday_cases = country_data.sum(axis=0).tail(1)[0]
         if yesterday_cases > 0:
+            labels = get_x_labels(country_data)
+
             plt.close()
             fig = plt.figure()
-            plt.title('Confirmed cases by date: {}'.format(country))
+            plt.title('Plot of confirmed cases by date: {}'.format(country))
+            plt.figure(figsize=(20, 15))
             plt.plot(by_date)
-            plt.savefig(os.path.realpath('plots/' + dir) +
-                        '/'+prefix+country+'.png')
+            plt.xlabel('Dates')
+            plt.ylabel('Total Number of Cases')
+            plt.xticks(labels, rotation=45)
+            plot_name = prefix+country+'.png'
+            plt.savefig(os.path.realpath('plots/' + dir) + '/' + plot_name)
             plt.clf()
+            upload(S, dir, plot_name, 'COVID 19 ' +
+                   dir + ' Cases in ' + country)
 
-plot_timeseries_by_country(
-    'confirmed', 'COVID_Confirmed_Cases_', CONFIRMED_CASES)
-plot_timeseries_by_country(
-    'deaths', 'COVID_Deaths_', DEATHS)
-plot_timeseries_by_country(
-    'recovered', 'COVID_Recovered_', RECOVERED_CASES)
+def get_x_labels(country_data):
+    dates = country_data.filter(like='/20')
+    x_labels = dates.columns.values
+    labels = []
+    idx = 0
+    for date in dates:
+        if idx % 3 == 0:
+            labels.append(date)
+        idx += 1
+    return labels
+
+
+S = login()
+
+# plot_timeseries_by_country(S,
+#                            'confirmed', 'COVID_Confirmed_Cases_', CONFIRMED_CASES)
+plot_timeseries_by_country(S,
+                           'deaths', 'COVID_Deaths_', DEATHS)
+plot_timeseries_by_country(S,
+                           'recovered', 'COVID_Recovered_', RECOVERED_CASES)
