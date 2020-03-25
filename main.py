@@ -11,11 +11,9 @@ from upload import *
 logging.basicConfig(level=logging.WARNING)
 
 # open the CSV file
-CONFIRMED_CASES = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv'
+CONFIRMED_CASES = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
 
-DEATHS = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv'
-
-RECOVERED_CASES = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv'
+DEATHS = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'
 
 
 def getFormattedDate():
@@ -62,9 +60,7 @@ def get_x_labels(country_data):
 
 S = login()
 
-# plot_timeseries_by_country(S,
-#                            'confirmed', 'COVID_Confirmed_Cases_', CONFIRMED_CASES)
+plot_timeseries_by_country(S,
+                           'confirmed', 'COVID_Confirmed_Cases_', CONFIRMED_CASES)
 plot_timeseries_by_country(S,
                            'deaths', 'COVID_Deaths_', DEATHS)
-plot_timeseries_by_country(S,
-                           'recovered', 'COVID_Recovered_', RECOVERED_CASES)
