@@ -1,6 +1,6 @@
 ## COVID Time Series
 
-### Put credentials? 
+### Put credentials
 Create a `credentials.txt` file in the project directory and put your bot's username and password in it. 
 
 Format: 
