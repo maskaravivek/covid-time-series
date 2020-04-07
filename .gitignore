@@ -1,3 +1,4 @@
 plots/*
 credentials.txt
 .vscode/*
+*__pycache__*

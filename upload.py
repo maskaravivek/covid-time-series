@@ -77,5 +77,6 @@ def upload(S, dir, fileName, description):
                      open(FILE_PATH, 'rb'), 'multipart/form-data')}
 
     R = S.post(URL, files=FILE, data=PARAMS_4)
+    print(R)
     DATA = R.json()
     print(DATA)
